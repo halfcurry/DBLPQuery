@@ -15,8 +15,8 @@ public class query1 extends query {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		dblpParser d = new dblpParser();
-		d.parse( this );
+		//dblpParser d = new dblpParser();
+		//d.parse( this );
 	}
 
 	@Override

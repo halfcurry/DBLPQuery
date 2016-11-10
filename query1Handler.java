@@ -32,7 +32,7 @@ public class query1Handler extends DefaultHandler{
 	    	  
 	         key = attributes.getValue("key");
 	         mdate = attributes.getValue("mdate");
-	         System.out.println( "Key: " + key + "\n" + "Mdate: " + mdate );
+	        // System.out.println( "Key: " + key + "\n" + "Mdate: " + mdate );
 	         
 	         q = new query1ResultRow();
 	         
@@ -92,14 +92,14 @@ public class query1Handler extends DefaultHandler{
 		  }
 		  else if( bYear )
 		  {
-			  int year = Integer.parseInt(new String( ch, start, length ));
+			  String year = new String( ch, start, length );
 			  System.out.println( "Year: " + year );
 			  q.setYear(year);
 			  bYear = false;
 		  }
 		  else if( bVolume )
 		  {
-			  int volume = Integer.parseInt(new String( ch, start, length ));
+			  String volume = new String( ch, start, length );
 			  System.out.println( "Volume: " + volume );
 			  q.setVolume(volume);
 			  bVolume = false;

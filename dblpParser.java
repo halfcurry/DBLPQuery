@@ -15,8 +15,9 @@ public class dblpParser {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
+			System.setProperty("jdk.xml.entityExpansionLimit", "0");
 			//System.out.println( "Hello!");
-			File inputFile = new File("dblpsmall.xml");
+			File inputFile = new File("dblp.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			query1Handler m = new query1Handler();
@@ -26,7 +27,7 @@ public class dblpParser {
 	      }
 	}
 	
-	public void parse( query Q )
+	public void Parse( query Q )
 	{
 		try {
 			//System.out.println( "Hello!");

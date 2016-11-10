@@ -7,8 +7,8 @@ public class query1ResultRow extends queryResultRow {
 	List<String> authors = new ArrayList<String>();
 	String title;
 	String pages;
-	int year;
-	int volume;
+	String year;
+	String volume;
 	String journalTitle;
 	String url;
 	
@@ -42,22 +42,22 @@ public class query1ResultRow extends queryResultRow {
 	}
 
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
 
-	public int getVolume() {
+	public String getVolume() {
 		return volume;
 	}
 
 
-	public void setVolume(int volume) {
+	public void setVolume(String volume) {
 		this.volume = volume;
 	}
 
