@@ -21,6 +21,12 @@ public class query1Handler extends DefaultHandler{
 	boolean bJournalTitle;
 	boolean bUrl;
 
+		@Override
+		public void startDocument()
+		{
+			System.out.println("Started Parsing!");
+		}
+		
 	   @Override
 	   public void startElement(String uri, 
 	      String localName, String qName, Attributes attributes) throws SAXException
@@ -60,7 +66,7 @@ public class query1Handler extends DefaultHandler{
 		    || qName.equalsIgnoreCase("proceedings") || qName.equalsIgnoreCase("book") 
 		    || qName.equalsIgnoreCase("incollection") || qName.equalsIgnoreCase("phdthesis")
 		    || qName.equalsIgnoreCase("mastersthesis") || qName.equalsIgnoreCase("www")) {
-	         System.out.println("");
+	         //System.out.println("");
 	         q.setAuthors(authors);
 	         query1ResultRowList.add( q );
 	      }
@@ -73,55 +79,56 @@ public class query1Handler extends DefaultHandler{
 		  {
 			  String author = new String( ch, start, length );
 			  authors.add( author );
-			  System.out.println( "Author: " + author );
+			  //System.out.println( "Author: " + author );
 			  bAuthors = false;
 		  }
 		  else if( bTitle )
 		  {
 			  String title = new String( ch, start, length );
-			  System.out.println( "Title: " + title );
+			  //System.out.println( "Title: " + title );
 			  q.setTitle( title );
 			  bTitle = false;
 		  }
 		  else if( bPages )
 		  {
 			  String pages = new String( ch, start, length );
-			  System.out.println( "Pages: " + pages );
+			  //System.out.println( "Pages: " + pages );
 			  q.setPages(pages);
 			  bPages = false;
 		  }
 		  else if( bYear )
 		  {
 			  String year = new String( ch, start, length );
-			  System.out.println( "Year: " + year );
+			  //System.out.println( "Year: " + year );
 			  q.setYear(year);
 			  bYear = false;
 		  }
 		  else if( bVolume )
 		  {
 			  String volume = new String( ch, start, length );
-			  System.out.println( "Volume: " + volume );
+			  //System.out.println( "Volume: " + volume );
 			  q.setVolume(volume);
 			  bVolume = false;
 		  }
 		  else if( bJournalTitle )
 		  {
 			  String journalTitle = new String( ch, start, length );
-			  System.out.println( "Journal/Book Title : " + journalTitle );
+			  //System.out.println( "Journal/Book Title : " + journalTitle );
 			  q.setJournalTitle(journalTitle);
 			  bJournalTitle = false;
 		  }
 		  else if( bUrl )
 		  {
 			  String url = new String( ch, start, length );
-			  System.out.println( "Url: " + url );
+			  //System.out.println( "Url: " + url );
 			  q.setUrl(url);
 			  bUrl = false;
 		  }
 	   }
 	   
 	   public void endDocument() throws SAXException {
-
+		   	System.out.println("File ended!");
+		   	System.out.println("Size of ArrayList:" + query1ResultRowList.size());
 		}
 	   
 	   public void Message(String mode, SAXParseException exception) {
