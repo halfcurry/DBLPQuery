@@ -3,9 +3,9 @@ import java.util.*;
 public class query1Parameters extends queryParameters{
 
 	boolean searchByName;
-	List<String> tags = new ArrayList<String>(); //tags are the parts of the name if searchByName is true, else they are the title tags to be searched for
-	int startYear;
-	int endYear;
+	String tags; //tags are the parts of the name if searchByName is true, else they are the title tags to be searched for
+	Integer startYear;
+	Integer endYear;
 	
 	/**
 	 * @param searchByName
@@ -13,7 +13,7 @@ public class query1Parameters extends queryParameters{
 	 * @param startYear
 	 * @param endYear
 	 */
-	public query1Parameters(boolean searchByName, List<String> tags, int startYear, int endYear) {
+	public query1Parameters(boolean searchByName, String tags, Integer startYear, Integer endYear) {
 		super();
 		this.searchByName = searchByName;
 		this.tags = tags;
@@ -29,27 +29,27 @@ public class query1Parameters extends queryParameters{
 		this.searchByName = searchByName;
 	}
 	
-	public List<String> getTags() {
+	public String getTags() {
 		return tags;
 	}
 	
-	public void setTags(List<String> tags) {
+	public void setTags(String tags) {
 		this.tags = tags;
 	}
 	
-	public int getStartYear() {
+	public Integer getStartYear() {
 		return startYear;
 	}
 	
-	public void setStartYear(int startYear) {
+	public void setStartYear(Integer startYear) {
 		this.startYear = startYear;
 	}
 	
-	public int getEndYear() {
+	public Integer getEndYear() {
 		return endYear;
 	}
 	
-	public void setEndYear(int endYear) {
+	public void setEndYear(Integer endYear) {
 		this.endYear = endYear;
 	}
 	

@@ -4,20 +4,29 @@ import java.util.*;
 public class Publication {
 	public static Map<String, Publication> publMap = new HashMap<String, Publication>();
 	private static int maxNumberOfAuthors = 0;
-	private String key;
+	//private String key;
 
-	List<String> authors = new ArrayList<String>();
-	String title;
+	//List<String> authors = new ArrayList<String>();
+	//String title;
 	String pages;
 	String year;
 	String volume;
 	String journalTitle;
 	String url;
 
-	public Publication(String key, List<String> authors) {
-		this.key = key;
-		this.authors = authors;
-		publMap.put(key, this);
+	public Publication(String key, List<String> authors, String title, String pages, String year, String volume, String journalTitle, String url ) {
+		//this.authors = authors;
+		this.journalTitle = journalTitle;
+		this.pages = pages;
+		this.volume = volume;
+		this.year = year;
+		this.url = url;
+		String temp = title + "/" + year + "/";
+		for( String author: authors ){
+			temp = temp + author + "/";
+		}
+		//this.title = title;
+		publMap.put( temp, this);
 		if (authors.size() > maxNumberOfAuthors)
 			maxNumberOfAuthors = authors.size();
 	}
@@ -30,21 +39,21 @@ public class Publication {
 		return maxNumberOfAuthors;
 	}
 
-	public List<String> getAuthors() {
-		return authors;
-	}
+//	public List<String> getAuthors() {
+//		return authors;
+//	}
+//
+//	public void setAuthors(List<String> authors) {
+//		this.authors = authors;
+//	}
 
-	public void setAuthors(List<String> authors) {
-		this.authors = authors;
-	}
+//	public String getTitle() {
+//		return title;
+//	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
+//	public void setTitle(String title) {
+//		this.title = title;
+//	}
 
 	public String getPages() {
 		return pages;
@@ -87,7 +96,7 @@ public class Publication {
 	}
 	
 	static public Iterator iterator() {
-		return publMap.values().iterator();
+		return publMap.keySet().iterator();
 	}
 
 }

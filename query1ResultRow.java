@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class query1ResultRow extends queryResultRow {
+public class query1ResultRow extends queryResultRow implements Comparable<query1ResultRow> {
 
 	List<String> authors = new ArrayList<String>();
 	String title;
@@ -66,6 +66,16 @@ public class query1ResultRow extends queryResultRow {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	@Override
+	public int compareTo(query1ResultRow o) {
+		// TODO Auto-generated method stub
+		if( o.getYear().equals("null") || year.equals("null"))
+			return -1;
+		Integer myYear = Integer.parseInt(year);
+		Integer otherYear = Integer.parseInt(o.getYear());
+		return otherYear - myYear;
 	}
 
 }

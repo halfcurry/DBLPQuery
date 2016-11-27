@@ -13,7 +13,7 @@ public class query2 extends query{
 	}
 
 	@Override
-	public void execute() {
+	public void execute( queryParameters q2Params ) {
 		// TODO Auto-generated method stub
 		
 	}

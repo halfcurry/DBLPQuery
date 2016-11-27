@@ -127,23 +127,20 @@ public class dblpQueryHandler extends DefaultHandler{
 			if( insidePerson ){
 				//we have finished a person record
 				countPerson++;
-				p = new Person(authors.get(0));
-				p.setAlternateNames(authors);
-				//System.out.println( "Finished a person record, no of persons");
-				//if( countPerson %100 == 0 )System.out.println("No. of persons : " + countPerson );
+				if( authors.size() > 0 )
+				{
+					p = new Person(authors.get(0));
+					p.setAlternateNames(authors);
+					//System.out.println( "Finished a person record, no of persons");
+					if( countPerson %100 == 0 )System.out.println("No. of persons : " + countPerson );
+				}
 			}
 			else{
 				//we finished a publication record
 				countPubl++;
-				publ = new Publication( key, authors );
-				publ.setJournalTitle(tempJournalTitle);
-				publ.setPages(tempPages);
-				publ.setTitle(tempTitle);
-				publ.setUrl(tempUrl);
-				publ.setVolume(tempVolume);
-				publ.setYear(tempYear);
+				publ = new Publication( key, authors, tempTitle, tempPages, tempYear, tempVolume, tempJournalTitle, tempUrl );
 				//System.out.println( "Finished a publication record");
-				//if( countPubl %100 == 0 )System.out.println("No. of publ : " + countPubl );
+				if( countPubl %100 == 0 )System.out.println("No. of publ : " + countPubl );
 			}
 			insidePerson = false;
 		}
