@@ -10,6 +10,9 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
+/*Note: go to Run -> Run Configurations -> Arguments -> VM Arguments and enter "-Xmx3000m"
+( without the quotes ). Click Apply.*/
+
 public class dblpParser {
 
 	public static void main(String[] args) {
@@ -20,33 +23,36 @@ public class dblpParser {
 			File inputFile = new File("dblp.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			query1Handler m = new query1Handler();
-			saxParser.parse(inputFile, m);     
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
+			//query2Parameters q2params = new query2Parameters( 100 );
+			//query2Handler m = new query2Handler( q2params );
+			//PersonQueryHandler m = new PersonQueryHandler();
+			dblpQueryHandler qHandler = new dblpQueryHandler();
+			saxParser.parse(inputFile, qHandler);     
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void Parse( query Q )
 	{
 		try {
 			//System.out.println( "Hello!");
-			File inputFile = new File("dblpsmall.xml");
+			File inputFile = new File("dblp.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			if( Q instanceof query1 )
 			{
-				query1Handler q1 = new query1Handler();
-				saxParser.parse(inputFile, q1 );    
+				//query1Handler q1 = new query1Handler();
+				//saxParser.parse(inputFile, q1 );    
 			}
 			else if ( Q instanceof query2 )
 			{
-				query2Handler q2 = new query2Handler();
-				saxParser.parse(inputFile, q2 );    
+				//query2Handler q2 = new query2Handler();
+				//saxParser.parse(inputFile, q2 );    
 			}
-			 
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

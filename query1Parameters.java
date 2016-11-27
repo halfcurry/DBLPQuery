@@ -2,17 +2,31 @@ import java.util.*;
 
 public class query1Parameters extends queryParameters{
 
-	boolean searchBy;
-	List<String> tags = new ArrayList<String>();
+	boolean searchByName;
+	List<String> tags = new ArrayList<String>(); //tags are the parts of the name if searchByName is true, else they are the title tags to be searched for
 	int startYear;
 	int endYear;
 	
-	public boolean isSearchBy() {
-		return searchBy;
+	/**
+	 * @param searchByName
+	 * @param tags
+	 * @param startYear
+	 * @param endYear
+	 */
+	public query1Parameters(boolean searchByName, List<String> tags, int startYear, int endYear) {
+		super();
+		this.searchByName = searchByName;
+		this.tags = tags;
+		this.startYear = startYear;
+		this.endYear = endYear;
+	}
+
+	public boolean isSearchByName() {
+		return searchByName;
 	}
 	
-	public void setSearchBy(boolean searchBy) {
-		this.searchBy = searchBy;
+	public void setSearchByName(boolean searchByName) {
+		this.searchByName = searchByName;
 	}
 	
 	public List<String> getTags() {

@@ -1,8 +1,10 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-public class query1ResultRow extends queryResultRow {
+import java.util.*;
+
+public class Publication {
+	public static Map<String, Publication> publMap = new HashMap<String, Publication>();
+	private static int maxNumberOfAuthors = 0;
+	private String key;
 
 	List<String> authors = new ArrayList<String>();
 	String title;
@@ -11,7 +13,23 @@ public class query1ResultRow extends queryResultRow {
 	String volume;
 	String journalTitle;
 	String url;
-	
+
+	public Publication(String key, List<String> authors) {
+		this.key = key;
+		this.authors = authors;
+		publMap.put(key, this);
+		if (authors.size() > maxNumberOfAuthors)
+			maxNumberOfAuthors = authors.size();
+	}
+
+	public static int getNumberOfPublications() {
+		return publMap.size();
+	}
+
+	public static int getMaxNumberOfAuthors() {
+		return maxNumberOfAuthors;
+	}
+
 	public List<String> getAuthors() {
 		return authors;
 	}
@@ -67,5 +85,10 @@ public class query1ResultRow extends queryResultRow {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	static public Iterator iterator() {
+		return publMap.values().iterator();
+	}
 
 }
+
