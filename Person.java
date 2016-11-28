@@ -72,7 +72,7 @@ public class Person {
 	}
 
 	static public Iterator iterator() {
-		return personMap.values().iterator();
+		return personMap.keySet().iterator();
 	}
 
 	static public Person searchPerson(String name) {

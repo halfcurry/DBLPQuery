@@ -31,25 +31,31 @@ public class query1 extends query {
 			}
 			else flag1 = true; //i.e no title tags or author tags have been entered
 			if( q1Params.getStartYear() != null && q1Params.getEndYear() != null ){
-				String year = key.split("/")[1];
-				if( !year.equalsIgnoreCase("null") && year.length() == 4 ){
+				String temp[] = key.split("\\|");
+				String year = temp[1].trim();
+				//System.out.println(year);
+				try {
 					Integer yearint = Integer.parseInt(year);
 					if( yearint>= q1Params.getStartYear() && yearint <= q1Params.getEndYear()){
 						flag2 = true;
 					}
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					//System.out.println("ERROX" + e.getMessage());
 				}
 			}
 			else flag2 = true; //i.e no years have been entered
 			if( flag1 && flag2 ){
 				//note here that if both years and title tags had not been entered, the gui would have disallowed it
 				relevantKeysResult.add(key);
+				//System.out.println(key);
 			}
 		}
 		query1ResultRowList = new ArrayList<query1ResultRow>();
 		for( String key : relevantKeysResult ){
-			System.out.println(key);
+			//System.out.println(key);
 			query1ResultRow q1 = new query1ResultRow();
-			String[] keyArr = key.split("/");
+			String[] keyArr = key.split("\\|");
 			q1.setTitle(keyArr[0]);
 			q1.setYear(keyArr[1]);
 			List<String> templist = new ArrayList<String>();
@@ -70,11 +76,13 @@ public class query1 extends query {
 	public void sortResults() {
 		// TODO Auto-generated method stub
 		Collections.sort( query1ResultRowList );
+		System.out.println();
 		for( query1ResultRow q1: query1ResultRowList ){
 			System.out.println( q1.getTitle() + " " + q1.getYear() + " " + q1.getAuthors() + " " +
 					q1.getJournalTitle() + " " + q1.getPages() + " " + q1.getVolume() + " " + 
 					q1.getUrl());
 		}
+		System.out.println("Hello " + query1ResultRowList.size() );
 	}
 	
 }

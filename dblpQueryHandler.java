@@ -126,21 +126,40 @@ public class dblpQueryHandler extends DefaultHandler{
 				|| qName.equalsIgnoreCase("mastersthesis") || qName.equalsIgnoreCase("www")) {
 			if( insidePerson ){
 				//we have finished a person record
-				countPerson++;
-				if( authors.size() > 0 )
-				{
-					p = new Person(authors.get(0));
+				if( authors.size() > 0 ){
+					for( String author: authors ){ //searches all person records if someone has already made a similar record
+						p = Person.searchPerson(author);
+						if( p != null ){
+							break;
+						}	
+					}
+					if( p == null ) {
+						p = new Person(authors.get(0));
+						countPerson++;
+						if( countPerson %10000 == 0 )System.out.println("No. of persons : " + countPerson );
+					}
 					p.setAlternateNames(authors);
 					//System.out.println( "Finished a person record, no of persons");
-					if( countPerson %100 == 0 )System.out.println("No. of persons : " + countPerson );
+					
 				}
 			}
 			else{
 				//we finished a publication record
 				countPubl++;
+				if( authors.size() > 0 )
+				{
+					for( String author: authors ){ //searches all person records if person record exists or not
+						p = Person.searchPerson(author);
+						if( p == null ){
+							p = new Person(author);
+							countPerson++;
+						}
+						p.increment();
+					}
+				}
 				publ = new Publication( key, authors, tempTitle, tempPages, tempYear, tempVolume, tempJournalTitle, tempUrl );
 				//System.out.println( "Finished a publication record");
-				if( countPubl %100 == 0 )System.out.println("No. of publ : " + countPubl );
+				if( countPubl %10000 == 0 )System.out.println("No. of publ : " + countPubl );
 			}
 			insidePerson = false;
 		}

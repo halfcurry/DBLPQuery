@@ -21,9 +21,9 @@ public class Publication {
 		this.volume = volume;
 		this.year = year;
 		this.url = url;
-		String temp = title + "/" + year + "/";
+		String temp = title + "|" + year + "|";
 		for( String author: authors ){
-			temp = temp + author + "/";
+			temp = temp + author + "|";
 		}
 		//this.title = title;
 		publMap.put( temp, this);
