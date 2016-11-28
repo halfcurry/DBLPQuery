@@ -128,7 +128,7 @@ public class dblpQueryHandler extends DefaultHandler{
 				//we have finished a person record
 				if( authors.size() > 0 ){
 					for( String author: authors ){ //searches all person records if someone has already made a similar record
-						p = Person.searchPerson(author);
+						p = Person.searchPerson(author); // can show up null if not entity matched
 						if( p != null ){
 							break;
 						}	
@@ -149,7 +149,7 @@ public class dblpQueryHandler extends DefaultHandler{
 				if( authors.size() > 0 )
 				{
 					for( String author: authors ){ //searches all person records if person record exists or not
-						p = Person.searchPerson(author);
+						p = Person.searchPerson(author); // can show up null if not entity matched
 						if( p == null ){
 							p = new Person(author);
 							countPerson++;

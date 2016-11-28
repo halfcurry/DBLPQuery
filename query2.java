@@ -41,10 +41,10 @@ public class query2 extends query{
 		
 	}
 
-	@Override
-	public void sortResults() {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void sortResults() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }

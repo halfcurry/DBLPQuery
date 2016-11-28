@@ -3,7 +3,7 @@ import java.util.*;
 public class query1Parameters extends queryParameters{
 
 	boolean searchByName;
-	String tags; //tags are the parts of the name if searchByName is true, else they are the title tags to be searched for
+	List<String> tags; //tags are the parts of the name if searchByName is true, else they are the title tags to be searched for
 	Integer startYear;
 	Integer endYear;
 	
@@ -13,10 +13,12 @@ public class query1Parameters extends queryParameters{
 	 * @param startYear
 	 * @param endYear
 	 */
-	public query1Parameters(boolean searchByName, String tags, Integer startYear, Integer endYear) {
+	public query1Parameters(boolean searchByName, String tagstring, Integer startYear, Integer endYear) {
 		super();
 		this.searchByName = searchByName;
-		this.tags = tags;
+		tags = new ArrayList<String>();
+		String[] temp = tagstring.split(" ");
+		for( int i = 0; i < temp.length; i++ )tags.add(temp[i]);
 		this.startYear = startYear;
 		this.endYear = endYear;
 	}
@@ -29,11 +31,11 @@ public class query1Parameters extends queryParameters{
 		this.searchByName = searchByName;
 	}
 	
-	public String getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 	
-	public void setTags(String tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	

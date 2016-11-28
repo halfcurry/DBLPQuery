@@ -2,15 +2,36 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class query1ResultRow extends queryResultRow implements Comparable<query1ResultRow> {
+public class query1ResultRow extends queryResultRow {
 
 	List<String> authors = new ArrayList<String>();
 	String title;
 	String pages;
 	String year;
 	String volume;
+	
 	String journalTitle;
 	String url;
+	
+	Integer relevance;
+
+	public Integer getRelevance() {
+		return relevance;
+	}
+
+	public void setRelevance(Integer relevance) {
+		this.relevance = relevance;
+	}
+
+	boolean searchByDate;
+	
+	public boolean isSearchByDate() {
+		return searchByDate;
+	}
+
+	public void setSearchByDate(boolean searchByDate) {
+		this.searchByDate = searchByDate;
+	}
 	
 	public List<String> getAuthors() {
 		return authors;
@@ -66,16 +87,6 @@ public class query1ResultRow extends queryResultRow implements Comparable<query1
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	@Override
-	public int compareTo(query1ResultRow o) {
-		// TODO Auto-generated method stub
-		if( o.getYear().equals("null") || year.equals("null"))
-			return -1;
-		Integer myYear = Integer.parseInt(year);
-		Integer otherYear = Integer.parseInt(o.getYear());
-		return otherYear - myYear;
 	}
 
 }

@@ -15,13 +15,14 @@ public class SearchManager {
 			System.setProperty("jdk.xml.entityExpansionLimit", "0");
 			dblpParser d = dblpParser.getSingletonDblpParser();
 			//System.out.println( "Hello!");
-//			query1Parameters q1p = new query1Parameters( true, "Shapiro", 1970, 2016 );
-//			query q1 = new query1();
-//			q1.execute(q1p);
-//			q1.sortResults();
-			query2Parameters q2p = new query2Parameters(400);
-			query2 q2 = new query2();
-			q2.execute(q2p);
+			query1Parameters q1p = new query1Parameters( true, "Some Security Principles and Their Application", 1970, 2010 );
+			query1 q1 = new query1();
+			q1.execute(q1p);
+			//q1.sortResultsByDate();
+			q1.sortResultsByRelevance();
+//			query2Parameters q2p = new query2Parameters(400);
+//			query2 q2 = new query2();
+//			q2.execute(q2p);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
