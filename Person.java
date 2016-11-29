@@ -11,7 +11,7 @@ public class Person {
 	public boolean temp_boolean = false;
 	private String name;
 	private Set nameParts;  //will help in Entity Resolution, basically is the parts of the name 
-	private int count;
+	private int count; //publication count
 	private List<String> alternateNames = new ArrayList<String>();
 	private int tmp;
 	private Person[] coauthors;

@@ -4,7 +4,8 @@ public class query1 extends query {
 
 	List<query1ResultRow> query1ResultRowList;
 	query1Parameters q1Params;
-
+	boolean sortParameters;
+	
 	public List<query1ResultRow> getQuery1ResultRowList() {
 		return query1ResultRowList;
 	}
@@ -16,20 +17,38 @@ public class query1 extends query {
 	@Override
 	public void execute( queryParameters q1Par ) {
 		// TODO Auto-generated method stub
+		Map <String, String> StopWords = new HashMap<String,String>();
+		StopWords.put("a", " " );
+		StopWords.put("an", " " );
+		StopWords.put("the", " " );
+		StopWords.put("to", " " );
+		StopWords.put("on", " " );
+		StopWords.put("of", " " );
+		StopWords.put("the", " " );
+		StopWords.put("in", " " );
+		StopWords.put("and", " " );
+		StopWords.put("for", " " );
+		StopWords.put("at", " " );
+		
 		q1Params = (query1Parameters)q1Par;
-		List<String> relevantKeysResult = new ArrayList<String>();
+		Map<String, Integer> relevantKeysResult = new HashMap<String, Integer>();
 		Iterator it = Publication.iterator();
+		Integer counter;
 		while( it.hasNext()){
-			boolean flag1 = false;
-			boolean flag2 = false;
+			counter = 0;
+			boolean stringmatched = false;
+			boolean yearmatched = false;
 			String key = (String)it.next();
 			//System.out.println(key);
-			if( q1Params.getTags() != null ){ 
-				if( key.toLowerCase().indexOf( q1Params.getTags().toLowerCase()) >= 0 ){
-					flag1 = true;
+			if( q1Params.getTags() != null ){
+				for( String tag: q1Params.getTags()){
+					if( key.toLowerCase().indexOf( tag.toLowerCase()) >= 0 && StopWords.get(tag) == null ){
+						stringmatched = true;
+						counter++;
+					}
 				}
 			}
-			else flag1 = true; //i.e no title tags or author tags have been entered
+			else stringmatched = true; //i.e no title tags or author tags have been entered
 			if( q1Params.getStartYear() != null && q1Params.getEndYear() != null ){
 				String temp[] = key.split("\\|");
 				String year = temp[1].trim();
@@ -37,22 +56,24 @@ public class query1 extends query {
 				try {
 					Integer yearint = Integer.parseInt(year);
 					if( yearint>= q1Params.getStartYear() && yearint <= q1Params.getEndYear()){
-						flag2 = true;
+						yearmatched = true;
 					}
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					//System.out.println("ERROX" + e.getMessage());
 				}
 			}
-			else flag2 = true; //i.e no years have been entered
-			if( flag1 && flag2 ){
+			else yearmatched = true; //i.e no years have been entered
+			if( stringmatched && yearmatched ){
 				//note here that if both years and title tags had not been entered, the gui would have disallowed it
-				relevantKeysResult.add(key);
+				relevantKeysResult.put(key, counter);
 				//System.out.println(key);
 			}
 		}
 		query1ResultRowList = new ArrayList<query1ResultRow>();
-		for( String key : relevantKeysResult ){
+		Iterator iter = relevantKeysResult.keySet().iterator();
+		while( iter.hasNext() ){
+			String key = (String)iter.next();
 			//System.out.println(key);
 			query1ResultRow q1 = new query1ResultRow();
 			String[] keyArr = key.split("\\|");
@@ -68,19 +89,41 @@ public class query1 extends query {
 			q1.setJournalTitle(publ.getJournalTitle());
 			q1.setUrl(publ.getUrl());
 			q1.setVolume(publ.getVolume());
+			q1.setRelevance(relevantKeysResult.get(key));
 			query1ResultRowList.add(q1);
 		}
 	}
 
-	@Override
-	public void sortResults() {
+	public void sortResultsByDate() {
 		// TODO Auto-generated method stub
-		Collections.sort( query1ResultRowList );
+		SortByDate byDate = new SortByDate();
+		Collections.sort( query1ResultRowList, byDate );
 		System.out.println();
+		int x = 0;
 		for( query1ResultRow q1: query1ResultRowList ){
-			System.out.println( q1.getTitle() + " " + q1.getYear() + " " + q1.getAuthors() + " " +
-					q1.getJournalTitle() + " " + q1.getPages() + " " + q1.getVolume() + " " + 
-					q1.getUrl());
+			x++;
+			if( x < 100 ){
+				System.out.println( q1.getRelevance() + " " + q1.getTitle() + " " + q1.getYear()
+				+ " " + q1.getAuthors() + " " + q1.getJournalTitle() + " " + q1.getPages() + " " 
+				+ q1.getVolume() + " " + q1.getUrl());
+			}	
+		}
+		System.out.println("Hello " + query1ResultRowList.size() );
+	}
+	
+	public void sortResultsByRelevance() {
+		// TODO Auto-generated method stub
+		SortByRelevance byRelevance = new SortByRelevance();
+		Collections.sort( query1ResultRowList, byRelevance );
+		System.out.println();
+		int x = 0;
+		for( query1ResultRow q1: query1ResultRowList ){
+			x++;
+			if( x < 100 ){
+				System.out.println( q1.getRelevance() + " " + q1.getTitle() + " " + q1.getYear()
+				+ " " + q1.getAuthors() + " " + q1.getJournalTitle() + " " + q1.getPages() + " " 
+				+ q1.getVolume() + " " + q1.getUrl());
+			}	
 		}
 		System.out.println("Hello " + query1ResultRowList.size() );
 	}
