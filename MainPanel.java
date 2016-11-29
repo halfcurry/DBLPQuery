@@ -13,23 +13,7 @@ public class MainPanel extends JPanel{
 	private JFrame frame_used;
 	private JTable table;
 	private JComboBox queryBox;
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainPanel window = new MainPanel();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
+	
 	/**
 	 * Create the application.
 	 */
@@ -99,6 +83,7 @@ public class MainPanel extends JPanel{
 		));
 		table.setForeground(new Color(0, 0, 0));
 		table.setBounds(10, 11, 476, 353);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		panel_1.add(table);
 		
 		JButton buttonNext = new JButton("Next");

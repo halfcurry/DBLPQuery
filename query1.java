@@ -14,7 +14,7 @@ public class query1 extends query {
 		this.query1ResultRowList = query1ResultRowList;
 	}
 	
-	public static String join( List<String> s ){
+	private static String join( List<String> s ){
 		String ret = "";
 		int i;
 		for( i = 0; i < s.size() - 1; i++ ){
@@ -22,6 +22,10 @@ public class query1 extends query {
 		}
 		return ret + s.get(i);
 	}
+	
+//	public query1( queryParameters q1Par ){
+//		
+//	}
 
 	@Override
 	public void execute( queryParameters q1Par ) {

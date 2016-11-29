@@ -14,10 +14,11 @@ public class Query1Panel extends JPanel{
 	private JTable table;
 	private JTextField name;
 	private JTextField sinceYear;
+	private query1 q1;
 	private JTextField year1;
 	private JTextField year2;
-	private query1Parameters parameters;
-	private ArrayList<Integer> arr; //for test purposes
+	private queryParameters parameters;
+	private List<query1ResultRow> q1ResList; //for test purposes
 	private int count = 0; //maintains number of elements displayed in table
 	
 
@@ -48,12 +49,6 @@ public class Query1Panel extends JPanel{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(JFrame frame) {
-		
-		arr = new ArrayList<Integer>();
-		for (int i = 1; i <= 45; i++)
-		{
-			arr.add(i);
-		}
 		
 		frame_used = frame;
 		//frame = new JFrame();
@@ -92,7 +87,7 @@ public class Query1Panel extends JPanel{
 		lblQuery.setBounds(75, 40, 56, 14);
 		panel.add(lblQuery);
 		
-		JComboBox searchByBox = new JComboBox();
+		final JComboBox searchByBox = new JComboBox();
 		searchByBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		searchByBox.setModel(new DefaultComboBoxModel(new String[] {"Search by", "Author name", "Title tags"}));
 		searchByBox.setBounds(52, 88, 98, 20);
@@ -133,11 +128,11 @@ public class Query1Panel extends JPanel{
 		panel.add(year2);
 		year2.setColumns(10);
 		
-		JCheckBox byYear = new JCheckBox("Sort by Year");
+		final JCheckBox byYear = new JCheckBox("Sort by Year");
 		byYear.setBounds(10, 259, 97, 23);
 		panel.add(byYear);
 		
-		JCheckBox byRelevance = new JCheckBox("Sort by Relevance");
+		final JCheckBox byRelevance = new JCheckBox("Sort by Relevance");
 		byRelevance.setBounds(10, 300, 128, 23);
 		panel.add(byRelevance);
 		
@@ -238,20 +233,32 @@ public class Query1Panel extends JPanel{
 				else
 					parameters = new query1Parameters(sByName, name_used, Integer.parseInt(syear), 2016);
 				
-				for (int i = 1; i <= 19; i++)
-				{
-					/*table.getModel().setValueAt(i, i, 0);
-					table.getModel().setValueAt("Author" + (i), i, 1);
-					table.getModel().setValueAt("Title" + (i), i, 2);
-					table.getModel().setValueAt(i, i, 3);
-					table.getModel().setValueAt(1889 + (i), i, 4);
-					table.getModel().setValueAt("Volume" + (i), i, 5);
-					table.getModel().setValueAt("Book Title" + (i), i, 6);
-					table.getModel().setValueAt("url" + (i), i, 7);*/
-					
-					int num = arr.get(i-1);
-					table.getModel().setValueAt(num, i, 0);
-					++count;
+				q1 = new query1();
+				q1.execute(parameters);
+				if( byYear.isSelected() ) q1.sortResultsByDate();
+				else if( byRelevance.isSelected()) q1.sortResultsByRelevance();
+				
+				q1ResList = q1.getQuery1ResultRowList(); 
+				
+				if( q1ResList.size() == 0 ){
+					JOptionPane.showMessageDialog(frame_used, "No results to display!");
+					return;
+				}else{
+					for (int i = 1; i <= 19; i++)
+					{
+						query1ResultRow q1rowtemp = q1ResList.get(i-1);
+						table.getModel().setValueAt(i, i, 0); //
+						table.getModel().setValueAt( q1rowtemp.getAuthors(), i, 1);
+						table.getModel().setValueAt(q1rowtemp.getTitle(), i, 2);
+						table.getModel().setValueAt(q1rowtemp.getPages(), i, 3);
+						table.getModel().setValueAt(q1rowtemp.getYear(), i, 4);
+						table.getModel().setValueAt( q1rowtemp.getVolume(), i, 5);
+						table.getModel().setValueAt(q1rowtemp.getJournalTitle(), i, 6);
+						table.getModel().setValueAt(q1rowtemp.getUrl(), i, 7);
+						++count;
+						
+						
+					}
 				}
 			}
 		});
@@ -374,8 +381,8 @@ public class Query1Panel extends JPanel{
 					));
 				
 				int temp = count;
-				int numLeft = arr.size() - count;
-				int num;
+				int numLeft = q1ResList.size() - count;
+				query1ResultRow arow;
 				if (numLeft == 0)
 				{
 					JOptionPane.showMessageDialog(frame_used, "All results have been displayed");
@@ -383,10 +390,17 @@ public class Query1Panel extends JPanel{
 				}
 				if ((numLeft != 0) && (numLeft <= 19))
 				{
-					for (int i = temp; i < arr.size(); i++)
+					for (int i = temp; i < q1ResList.size(); i++)
 					{
-						num = arr.get(i);
-						table.getModel().setValueAt(num, (i%19)+1, 0);
+						arow = q1ResList.get(i);
+						table.getModel().setValueAt(i, (i%19)+1, 0); //
+						table.getModel().setValueAt( arow.getAuthors(), (i%19)+1, 1);
+						table.getModel().setValueAt(arow.getTitle(), (i%19)+1, 2);
+						table.getModel().setValueAt(arow.getPages(), (i%19)+1, 3);
+						table.getModel().setValueAt(arow.getYear(), (i%19)+1, 4);
+						table.getModel().setValueAt( arow.getVolume(), (i%19)+1, 5);
+						table.getModel().setValueAt(arow.getJournalTitle(), (i%19)+1, 6);
+						table.getModel().setValueAt(arow.getUrl(), (i%19)+1, 7);
 						++count;
 					}
 				}
@@ -394,8 +408,15 @@ public class Query1Panel extends JPanel{
 				{
 					for (int i = temp; i <= (temp + 18); i++)
 					{
-						num = arr.get(i);
-						table.getModel().setValueAt(num, (i%19)+1, 0);
+						arow = q1ResList.get(i);
+						table.getModel().setValueAt(i, (i%19)+1, 0); //
+						table.getModel().setValueAt( arow.getAuthors(), (i%19)+1, 1);
+						table.getModel().setValueAt(arow.getTitle(), (i%19)+1, 2);
+						table.getModel().setValueAt(arow.getPages(), (i%19)+1, 3);
+						table.getModel().setValueAt(arow.getYear(), (i%19)+1, 4);
+						table.getModel().setValueAt( arow.getVolume(), (i%19)+1, 5);
+						table.getModel().setValueAt(arow.getJournalTitle(), (i%19)+1, 6);
+						table.getModel().setValueAt(arow.getUrl(), (i%19)+1, 7);
 						++count;
 					}
 				}
@@ -406,27 +427,6 @@ public class Query1Panel extends JPanel{
 		buttonNext.setBackground(new Color(0, 0, 0));
 		buttonNext.setBounds(397, 375, 89, 23);
 		panel_1.add(buttonNext);
-		
-		//result test
-		/*ArrayList<ResultTest> results = new ArrayList<>();
-		
-		ResultTest obj1 = new ResultTest();
-		obj1.sno = 1;
-		ArrayList<String> a = new ArrayList<>();
-		a.add("Peter");
-		a.add("Parker");
-		a.add("Tony");
-		a.add("Stark");
-		obj1.authors = a;
-		obj1.title = "Marvel";
-		obj1.journal = "Civil War";
-		obj1.pages = "100";
-		obj1.url = "www.marvel.com";
-		obj1.volume = "2";
-		obj1.year = "1991";
-		results.add(obj1);*/
-		
-		
 		
 	}
 }

@@ -136,7 +136,7 @@ public class dblpQueryHandler extends DefaultHandler{
 					if( p == null ) {
 						p = new Person(authors.get(0));
 						countPerson++;
-						if( countPerson %10000 == 0 )System.out.println("No. of persons : " + countPerson );
+//						if( countPerson %10000 == 0 )System.out.println("No. of persons : " + countPerson );
 					}
 					p.setAlternateNames(authors);
 					//System.out.println( "Finished a person record, no of persons");		
@@ -158,7 +158,7 @@ public class dblpQueryHandler extends DefaultHandler{
 				}
 				publ = new Publication( key, authors, tempTitle, tempPages, tempYear, tempVolume, tempJournalTitle, tempUrl );
 				//System.out.println( "Finished a publication record");
-				if( countPubl %10000 == 0 )System.out.println("No. of publ : " + countPubl );
+//				if( countPubl %10000 == 0 )System.out.println("No. of publ : " + countPubl );
 			}
 			insidePerson = false;
 		}

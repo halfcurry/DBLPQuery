@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-
+import java.util.*;
 
 
 public class Query2Panel extends JPanel{
@@ -15,25 +15,14 @@ public class Query2Panel extends JPanel{
 	private JFrame frame_used;
 	private JTable table;
 	private JTextField nPub;
+	private query2 q2;
 	private query2Parameters parameters;
-	private ArrayList<Integer> arr; //for test purposes
+	private List<query2ResultRow> q2ResList; //for test purposes
 	private int count = 0; //maintains number of elements displayed in table
 
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Query2Panel window = new Query2Panel();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 
 	/**
 	 * Create the application.
@@ -46,12 +35,6 @@ public class Query2Panel extends JPanel{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(JFrame frame) {
-		
-		arr = new ArrayList<Integer>();
-		for (int i = 1; i <= 45; i++)
-		{
-			arr.add(i);
-		}
 		
 		frame_used = frame;
 		setBackground(new Color(220, 220, 220));
@@ -136,11 +119,20 @@ public class Query2Panel extends JPanel{
 				
 				parameters = new query2Parameters(numPub);
 				
-				for (int i = 1; i <= 19; i++)
-				{	
-					int num = arr.get(i-1);
-					table.getModel().setValueAt(num, i, 0);
-					++count;
+				q2 = new query2();
+				q2.execute(parameters);
+				
+				if( q2ResList.size() == 0 ){
+					JOptionPane.showMessageDialog(frame_used, "No results to display!");
+					return;
+				}else{
+					for (int i = 1; i <= 19; i++)
+					{
+						query2ResultRow q2rowtemp = q2ResList.get(i-1);
+						table.getModel().setValueAt(i, i, 0); //
+						table.getModel().setValueAt( q2rowtemp.getAuthorName(), i, 1);
+						++count;
+					}
 				}
 			}
 		});
@@ -255,8 +247,8 @@ public class Query2Panel extends JPanel{
 					));
 				
 				int temp = count;
-				int numLeft = arr.size() - count;
-				int num;
+				int numLeft = q2ResList.size() - count;
+				query2ResultRow q2Rowtemp;
 				if (numLeft == 0)
 				{
 					JOptionPane.showMessageDialog(frame_used, "All results have been displayed");
@@ -264,10 +256,11 @@ public class Query2Panel extends JPanel{
 				}
 				if ((numLeft != 0) && (numLeft <= 19))
 				{
-					for (int i = temp; i < arr.size(); i++)
+					for (int i = temp; i < q2ResList.size(); i++)
 					{
-						num = arr.get(i);
-						table.getModel().setValueAt(num, (i%19)+1, 0);
+						q2Rowtemp = q2ResList.get(i);
+						table.getModel().setValueAt(i, (i%19)+1, 0);
+						table.getModel().setValueAt(q2Rowtemp.getAuthorName(), (i%19)+1, 0);
 						++count;
 					}
 				}
@@ -275,8 +268,9 @@ public class Query2Panel extends JPanel{
 				{
 					for (int i = temp; i <= (temp + 18); i++)
 					{
-						num = arr.get(i);
-						table.getModel().setValueAt(num, (i%19)+1, 0);
+						q2Rowtemp = q2ResList.get(i);
+						table.getModel().setValueAt(i, (i%19)+1, 0);
+						table.getModel().setValueAt(q2Rowtemp.getAuthorName(), (i%19)+1, 0);
 						++count;
 					}
 				}

@@ -13,14 +13,14 @@ import org.xml.sax.helpers.DefaultHandler;
 /*Note: go to Run -> Run Configurations -> Arguments -> VM Arguments and enter "-Xmx3000m"
 ( without the quotes ). Click Apply.*/
 
-public class dblpParser {
+public class dblpParser{
 	
 	//purpose of making dblpParser a singleton is so that we parse only once at the beginning 
 	private static dblpParser uniqueInstance;
 	
 	private dblpParser(){
 		try{
-			File inputFile = new File("dblp.xml");
+			File inputFile = new File("dblp_medium.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			dblpQueryHandler qHandler = new dblpQueryHandler();
