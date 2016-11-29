@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 
@@ -13,7 +14,10 @@ public class Query2Panel extends JPanel{
 
 	private JFrame frame_used;
 	private JTable table;
-	private JTextField textField;
+	private JTextField nPub;
+	private query2Parameters parameters;
+	private ArrayList<Integer> arr; //for test purposes
+	private int count = 0; //maintains number of elements displayed in table
 
 	/**
 	 * Launch the application.
@@ -42,6 +46,13 @@ public class Query2Panel extends JPanel{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(JFrame frame) {
+		
+		arr = new ArrayList<Integer>();
+		for (int i = 1; i <= 45; i++)
+		{
+			arr.add(i);
+		}
+		
 		frame_used = frame;
 		setBackground(new Color(220, 220, 220));
 		setSize(750, 540);
@@ -96,18 +107,82 @@ public class Query2Panel extends JPanel{
 		lblNoOfPublications.setBounds(10, 117, 98, 14);
 		panel.add(lblNoOfPublications);
 		
-		textField = new JTextField();
-		textField.setBounds(112, 114, 65, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		nPub = new JTextField();
+		nPub.setBounds(112, 114, 65, 20);
+		panel.add(nPub);
+		nPub.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(20, 189, 79, 23);
-		panel.add(btnSearch);
+		JButton buttonSearch = new JButton("Search");
+		buttonSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String np = nPub.getText();
+				if (np.equals(""))
+				{
+					JOptionPane.showMessageDialog(frame_used, "Please enter the number of publications");
+					return;
+				}
+				
+				int numPub;
+				try
+				{
+					numPub = Integer.parseInt(np);
+					//is an int
+				}
+				catch(NumberFormatException exc)
+				{
+					JOptionPane.showMessageDialog(frame_used, "Please enter the number of publications as an integer");
+					return;
+				}
+				
+				parameters = new query2Parameters(numPub);
+				
+				for (int i = 1; i <= 19; i++)
+				{	
+					int num = arr.get(i-1);
+					table.getModel().setValueAt(num, i, 0);
+					++count;
+				}
+			}
+		});
+		buttonSearch.setBounds(20, 189, 79, 23);
+		panel.add(buttonSearch);
 		
-		JButton btnReset = new JButton("Reset");
-		btnReset.setBounds(112, 189, 79, 23);
-		panel.add(btnReset);
+		JButton buttonReset = new JButton("Reset");
+		buttonReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nPub.setText("");
+				
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+							{"Author name"},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+						},
+						new String[] {
+							"Author name"
+						}
+					));
+			}
+		});
+		buttonReset.setBounds(112, 189, 79, 23);
+		panel.add(buttonReset);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
@@ -118,7 +193,7 @@ public class Query2Panel extends JPanel{
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null},
+				{"Author name"},
 				{null},
 				{null},
 				{null},
@@ -148,6 +223,65 @@ public class Query2Panel extends JPanel{
 		panel_1.add(table);
 		
 		JButton btnNext = new JButton("Next");
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+							{"Author name"},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+							{null},
+						},
+						new String[] {
+							"Author name"
+						}
+					));
+				
+				int temp = count;
+				int numLeft = arr.size() - count;
+				int num;
+				if (numLeft == 0)
+				{
+					JOptionPane.showMessageDialog(frame_used, "All results have been displayed");
+					return;
+				}
+				if ((numLeft != 0) && (numLeft <= 19))
+				{
+					for (int i = temp; i < arr.size(); i++)
+					{
+						num = arr.get(i);
+						table.getModel().setValueAt(num, (i%19)+1, 0);
+						++count;
+					}
+				}
+				if ((numLeft != 0) && (numLeft > 19))
+				{
+					for (int i = temp; i <= (temp + 18); i++)
+					{
+						num = arr.get(i);
+						table.getModel().setValueAt(num, (i%19)+1, 0);
+						++count;
+					}
+				}
+			}
+		});
 		btnNext.setForeground(new Color(255, 255, 255));
 		btnNext.setFont(new Font("Calibri", Font.PLAIN, 14));
 		btnNext.setBackground(new Color(0, 0, 0));
