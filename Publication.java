@@ -3,11 +3,11 @@ import java.util.*;
 
 public class Publication {
 	public static Map<String, Publication> publMap = new HashMap<String, Publication>();
-	private static int maxNumberOfAuthors = 0;
-	//private String key;
+	private static int maxNumberOfAuthors = 50;
+	private String key;
 
-	//List<String> authors = new ArrayList<String>();
-	//String title;
+	List<String> authors = new ArrayList<String>();
+	String title;
 	String pages;
 	String year;
 	String volume;
@@ -15,20 +15,27 @@ public class Publication {
 	String url;
 
 	public Publication(String key, List<String> authors, String title, String pages, String year, String volume, String journalTitle, String url ) {
-		//this.authors = authors;
 		this.journalTitle = journalTitle;
 		this.pages = pages;
 		this.volume = volume;
 		this.year = year;
 		this.url = url;
-		String temp = title + "|" + year + "|";
-		for( String author: authors ){
-			temp = temp + author + "|";
+		this.authors = authors;
+		this.title = title;
+		this.key = key;
+		publMap.put( key, this);
+		if (authors.size() > maxNumberOfAuthors){
+			System.out.println( "More than 50 authors for this one!");
+			//System.exit(0);
 		}
-		//this.title = title;
-		publMap.put( temp, this);
-		if (authors.size() > maxNumberOfAuthors)
-			maxNumberOfAuthors = authors.size();
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public static int getNumberOfPublications() {
@@ -39,21 +46,13 @@ public class Publication {
 		return maxNumberOfAuthors;
 	}
 
-//	public List<String> getAuthors() {
-//		return authors;
-//	}
-//
-//	public void setAuthors(List<String> authors) {
-//		this.authors = authors;
-//	}
+	public String getTitle() {
+		return title;
+	}
 
-//	public String getTitle() {
-//		return title;
-//	}
-
-//	public void setTitle(String title) {
-//		this.title = title;
-//	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getPages() {
 		return pages;
@@ -96,7 +95,15 @@ public class Publication {
 	}
 	
 	static public Iterator iterator() {
-		return publMap.keySet().iterator();
+		return publMap.values().iterator();
+	}
+
+	public List<String> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
 	}
 
 }

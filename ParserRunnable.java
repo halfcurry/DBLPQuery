@@ -7,7 +7,6 @@ public class ParserRunnable implements Runnable{
 	
 	public void run(){
 		dblpParser d = dblpParser.getSingletonDblpParser();
-		notify();
 	}
 
 }

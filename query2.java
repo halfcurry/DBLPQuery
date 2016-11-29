@@ -20,31 +20,23 @@ public class query2 extends query{
 		// TODO Auto-generated method stub
 		q2Params = (query2Parameters)q2Par;
 		List<String> relevantKeysResult = new ArrayList<String>();
-		Iterator it = Person.iterator();
+		Iterator it = Person.personMap.keySet().iterator();
+		Integer givenCount = q2Params.getNumPublications();
 		while( it.hasNext()){
 			String key = (String)it.next();
-			Person p = Person.personMap.get(key);
-			if( p.getCount() >= q2Params.getNumPublications() && p.getName().length() > 4 ){
-				System.out.println(key + " " + p.getCount());
+			Integer count = Person.personMap.get(key);
+			if( count >= givenCount && key.length() > 4 ){  
+				//filter out useless authors with 4 or less lettered names
+				//System.out.println(key + " " + count );
 				relevantKeysResult.add(key);
 			}
-			//System.out.println(key);
 		}
 		System.out.println("Number of results: " + relevantKeysResult.size());
-//		query2ResultRowList = new ArrayList<query2ResultRow>();
-//		for( String key : relevantKeysResult ){
-//			//System.out.println(key);
-//			query2ResultRow q2 = new query2ResultRow();
-//			
-//			query2ResultRowList.add(q2);
-//		}
-		
+		query2ResultRowList = new ArrayList<query2ResultRow>();
+		for( String key : relevantKeysResult ){
+			//System.out.println(key);
+			query2ResultRow q2 = new query2ResultRow();
+			query2ResultRowList.add(q2);
+		}
 	}
-
-//	@Override
-//	public void sortResults() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
 }

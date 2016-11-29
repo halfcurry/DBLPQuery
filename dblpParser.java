@@ -23,8 +23,12 @@ public class dblpParser{
 			File inputFile = new File("dblp_medium.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			dblpQueryHandler qHandler = new dblpQueryHandler();
-			saxParser.parse(inputFile, qHandler);
+//			dblpQueryHandler qHandler = new dblpQueryHandler();
+//			saxParser.parse(inputFile, qHandler);
+			FirstParseHandler fph = new FirstParseHandler();
+			saxParser.parse( inputFile, fph );
+			SecondParseHandler sph = new SecondParseHandler();
+			saxParser.parse(inputFile, sph);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

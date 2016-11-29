@@ -19,10 +19,7 @@ public class Query2Panel extends JPanel{
 	private query2Parameters parameters;
 	private List<query2ResultRow> q2ResList; //for test purposes
 	private int count = 0; //maintains number of elements displayed in table
-
-	/**
-	 * Launch the application.
-	 */
+	private JLabel resultshow;
 
 	/**
 	 * Create the application.
@@ -47,6 +44,10 @@ public class Query2Panel extends JPanel{
 		lblNewLabel.setBounds(10, 0, 724, 82);
 		add(lblNewLabel);
 		
+		final JPanel panel_2 = new JPanel();
+		panel_2.setBounds(238, 87, 496, 16);
+		add(panel_2);
+		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
 		separator.setBackground(new Color(0, 0, 0));
@@ -59,7 +60,7 @@ public class Query2Panel extends JPanel{
 		separator_1.setBounds(10, 80, 724, 2);
 		add(separator_1);
 		
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		panel.setBackground(new Color(192, 192, 192));
 		panel.setBounds(20, 91, 208, 409);
 		add(panel);
@@ -122,6 +123,14 @@ public class Query2Panel extends JPanel{
 				q2 = new query2();
 				q2.execute(parameters);
 				
+				q2ResList = q2.getQuery2ResultRowList(); 
+				
+				resultshow = new JLabel("No. of results returned: " + q2ResList.size());
+				resultshow.setHorizontalAlignment(SwingConstants.CENTER);
+				resultshow.setFont(new Font("Tahoma", Font.BOLD, 15));
+				resultshow.setBounds(75, 40, 56, 14);
+				panel.add(resultshow);
+				
 				if( q2ResList.size() == 0 ){
 					JOptionPane.showMessageDialog(frame_used, "No results to display!");
 					return;
@@ -143,6 +152,11 @@ public class Query2Panel extends JPanel{
 		buttonReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nPub.setText("");
+				
+				if( resultshow != null ){
+					panel.remove(resultshow);
+					resultshow = null;
+				}
 				
 				table.setModel(new DefaultTableModel(
 						new Object[][] {
@@ -178,11 +192,12 @@ public class Query2Panel extends JPanel{
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
-		panel_1.setBounds(238, 91, 496, 409);
+		panel_1.setBounds(238, 107, 496, 393);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
 		table = new JTable();
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"Author name"},
@@ -211,7 +226,7 @@ public class Query2Panel extends JPanel{
 			}
 		));
 		table.setForeground(new Color(0, 0, 0));
-		table.setBounds(10, 11, 476, 353);
+		table.setBounds(10, 11, 476, 345);
 		panel_1.add(table);
 		
 		JButton btnNext = new JButton("Next");
@@ -279,7 +294,7 @@ public class Query2Panel extends JPanel{
 		btnNext.setForeground(new Color(255, 255, 255));
 		btnNext.setFont(new Font("Calibri", Font.PLAIN, 14));
 		btnNext.setBackground(new Color(0, 0, 0));
-		btnNext.setBounds(397, 375, 89, 23);
+		btnNext.setBounds(397, 363, 89, 19);
 		panel_1.add(btnNext);
 	}
 

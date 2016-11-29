@@ -20,23 +20,7 @@ public class Query1Panel extends JPanel{
 	private queryParameters parameters;
 	private List<query1ResultRow> q1ResList; //for test purposes
 	private int count = 0; //maintains number of elements displayed in table
-	
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Query1Panel window = new Query1Panel();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	private JLabel resultshow;
 
 	/**
 	 * Create the application.
@@ -51,9 +35,6 @@ public class Query1Panel extends JPanel{
 	private void initialize(JFrame frame) {
 		
 		frame_used = frame;
-		//frame = new JFrame();
-		//frame.setSize(750, 540);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBackground(new Color(220, 220, 220));
 		setSize(750, 540);
 		setLayout(null);
@@ -63,6 +44,10 @@ public class Query1Panel extends JPanel{
 		lblNewLabel.setFont(new Font("Candara", Font.BOLD, 40));
 		lblNewLabel.setBounds(10, 0, 724, 82);
 		add(lblNewLabel);
+		
+		final JPanel panel_2 = new JPanel();
+		panel_2.setBounds(238, 87, 496, 16);
+		add(panel_2);
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
@@ -76,7 +61,7 @@ public class Query1Panel extends JPanel{
 		separator_1.setBounds(10, 80, 724, 2);
 		add(separator_1);
 		
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		panel.setBackground(new Color(192, 192, 192));
 		panel.setBounds(20, 91, 208, 409);
 		add(panel);
@@ -217,6 +202,7 @@ public class Query1Panel extends JPanel{
 					}
 				}
 				
+				if( sByName ) byRelevance.setSelected(false);
 				boolean sByYear;
 				if ((!byYear.isSelected()) && (!byRelevance.isSelected()))
 				{
@@ -239,6 +225,15 @@ public class Query1Panel extends JPanel{
 				else if( byRelevance.isSelected()) q1.sortResultsByRelevance();
 				
 				q1ResList = q1.getQuery1ResultRowList(); 
+				
+				resultshow = new JLabel("No. of results returned: " + q1ResList.size());
+				resultshow.setHorizontalAlignment(SwingConstants.CENTER);
+				resultshow.setFont(new Font("Tahoma", Font.BOLD, 15));
+				resultshow.setBounds(75, 40, 56, 14);
+				panel.add(resultshow);
+				
+				resultshow = new JLabel("No. of results returned: " + q1ResList.size());
+				panel_2.add(resultshow);
 				
 				if( q1ResList.size() == 0 ){
 					JOptionPane.showMessageDialog(frame_used, "No results to display!");
@@ -276,6 +271,11 @@ public class Query1Panel extends JPanel{
 				byYear.setSelected(false);
 				byRelevance.setSelected(false);
 				
+				if( resultshow != null ){
+					panel.remove(resultshow);
+					resultshow = null;
+				}
+				
 				table.setModel(new DefaultTableModel(
 						new Object[][] {
 							{"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"},
@@ -311,11 +311,12 @@ public class Query1Panel extends JPanel{
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
-		panel_1.setBounds(238, 91, 496, 409);
+		panel_1.setBounds(238, 104, 496, 396);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
 		table = new JTable();
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"},

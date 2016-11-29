@@ -6,7 +6,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class dblpQueryHandler extends DefaultHandler{
+public class SecondParseHandler extends DefaultHandler{
 
 	//common tags which hold for both publication and person records
 	String key; 
@@ -48,16 +48,11 @@ public class dblpQueryHandler extends DefaultHandler{
 		if (qName.equalsIgnoreCase("article") || qName.equalsIgnoreCase("inproceedings")
 				|| qName.equalsIgnoreCase("proceedings") || qName.equalsIgnoreCase("book") || 
 				qName.equalsIgnoreCase("incollection") || qName.equalsIgnoreCase("phdthesis")
-				|| qName.equalsIgnoreCase("mastersthesis") || qName.equalsIgnoreCase("www")) 
+				|| qName.equalsIgnoreCase("mastersthesis")) 
 		{
 			if (attributes.getLength()>0) {
 				key = attributes.getValue("key");
 				// System.out.println( "Key: " + key + "\n" + "Mdate: " + mdate );
-				if( qName.equalsIgnoreCase("www") && key.substring(0,9).equals("homepages")){ 
-					//this is a person record
-					insidePerson = true;
-					//System.out.println("Inside a person record");
-				}
 				authors = new ArrayList<String>();
 			}
 		}else if (qName.equalsIgnoreCase("author")) {
@@ -123,44 +118,24 @@ public class dblpQueryHandler extends DefaultHandler{
 		if (qName.equalsIgnoreCase("article") || qName.equalsIgnoreCase("inproceedings")
 				|| qName.equalsIgnoreCase("proceedings") || qName.equalsIgnoreCase("book") 
 				|| qName.equalsIgnoreCase("incollection") || qName.equalsIgnoreCase("phdthesis")
-				|| qName.equalsIgnoreCase("mastersthesis") || qName.equalsIgnoreCase("www")) {
-			if( insidePerson ){
-				//we have finished a person record
-				if( authors.size() > 0 ){
-					for( String author: authors ){ //searches all person records if someone has already made a similar record
-						p = Person.searchPerson(author); // can show up null if not entity matched
-						if( p != null ){
-							break;
-						}	
-					}
-					if( p == null ) {
-						p = new Person(authors.get(0));
-						countPerson++;
-//						if( countPerson %10000 == 0 )System.out.println("No. of persons : " + countPerson );
-					}
-					p.setAlternateNames(authors);
-					//System.out.println( "Finished a person record, no of persons");		
+				|| qName.equalsIgnoreCase("mastersthesis")) {
+			for( String author: authors ){
+				if( Person.altnamesmatch.containsKey(author)){
+					Integer i = Person.personMap.get(Person.altnamesmatch.get(author));
+					i++;
+					Person.personMap.put(Person.altnamesmatch.get(author), i);
+				}else if( Person.personMap.containsKey(author)){
+					Integer i = Person.personMap.get(author);
+					i++;
+					Person.personMap.put(author, i);
+				}else{
+					Person.personMap.put(author, 0);
 				}
 			}
-			else{
-				//we finished a publication record
-				countPubl++;
-				if( authors.size() > 0 )
-				{
-					for( String author: authors ){ //searches all person records if person record exists or not
-						p = Person.searchPerson(author); // can show up null if not entity matched
-						if( p == null ){
-							p = new Person(author);
-							countPerson++;
-						}
-						p.increment();
-					}
-				}
-				publ = new Publication( key, authors, tempTitle, tempPages, tempYear, tempVolume, tempJournalTitle, tempUrl );
-				//System.out.println( "Finished a publication record");
-//				if( countPubl %10000 == 0 )System.out.println("No. of publ : " + countPubl );
+			publ = new Publication( key, authors, tempTitle, tempPages, tempYear, tempVolume, tempJournalTitle, tempUrl );
+			if( Publication.publMap.size() % 10000 == 0 ){
+				System.out.println( "Publications size: " + Publication.publMap.size() );
 			}
-			insidePerson = false;
 		}
 	}
 
