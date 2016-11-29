@@ -12,10 +12,14 @@ public class Query1Panel extends JPanel{
 
 	private JFrame frame_used;
 	private JTable table;
-	private JTextField textField;
-	private JTextField txtYyyy;
-	private JTextField txtYyyy_1;
-	private JTextField txtYyyy_2;
+	private JTextField name;
+	private JTextField sinceYear;
+	private JTextField year1;
+	private JTextField year2;
+	private query1Parameters parameters;
+	private ArrayList<Integer> arr; //for test purposes
+	private int count = 0; //maintains number of elements displayed in table
+	
 
 	/**
 	 * Launch the application.
@@ -44,6 +48,13 @@ public class Query1Panel extends JPanel{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(JFrame frame) {
+		
+		arr = new ArrayList<Integer>();
+		for (int i = 1; i <= 45; i++)
+		{
+			arr.add(i);
+		}
+		
 		frame_used = frame;
 		//frame = new JFrame();
 		//frame.setSize(750, 540);
@@ -81,57 +92,57 @@ public class Query1Panel extends JPanel{
 		lblQuery.setBounds(75, 40, 56, 14);
 		panel.add(lblQuery);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Search by", "Author name", "Title tags"}));
-		comboBox.setBounds(52, 88, 98, 20);
-		panel.add(comboBox);
+		JComboBox searchByBox = new JComboBox();
+		searchByBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		searchByBox.setModel(new DefaultComboBoxModel(new String[] {"Search by", "Author name", "Title tags"}));
+		searchByBox.setBounds(52, 88, 98, 20);
+		panel.add(searchByBox);
 		
 		JLabel lblNametitleTags = new JLabel("Name/Title tags");
 		lblNametitleTags.setBounds(10, 135, 89, 14);
 		panel.add(lblNametitleTags);
 		
-		textField = new JTextField();
-		textField.setBounds(97, 132, 101, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		name = new JTextField();
+		name.setBounds(97, 132, 101, 20);
+		panel.add(name);
+		name.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Since Year");
 		lblNewLabel_1.setBounds(10, 178, 65, 14);
 		panel.add(lblNewLabel_1);
 		
-		txtYyyy = new JTextField();
-		txtYyyy.setText("YYYY");
-		txtYyyy.setBounds(97, 175, 34, 20);
-		panel.add(txtYyyy);
-		txtYyyy.setColumns(10);
+		sinceYear = new JTextField();
+		sinceYear.setText("YYYY");
+		sinceYear.setBounds(97, 175, 34, 20);
+		panel.add(sinceYear);
+		sinceYear.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Custom Range");
 		lblNewLabel_2.setBounds(10, 220, 89, 14);
 		panel.add(lblNewLabel_2);
 		
-		txtYyyy_1 = new JTextField();
-		txtYyyy_1.setText("YYYY");
-		txtYyyy_1.setBounds(97, 217, 34, 20);
-		panel.add(txtYyyy_1);
-		txtYyyy_1.setColumns(10);
+		year1 = new JTextField();
+		year1.setText("YYYY");
+		year1.setBounds(97, 217, 34, 20);
+		panel.add(year1);
+		year1.setColumns(10);
 		
-		txtYyyy_2 = new JTextField();
-		txtYyyy_2.setText("YYYY");
-		txtYyyy_2.setBounds(145, 217, 34, 20);
-		panel.add(txtYyyy_2);
-		txtYyyy_2.setColumns(10);
+		year2 = new JTextField();
+		year2.setText("YYYY");
+		year2.setBounds(145, 217, 34, 20);
+		panel.add(year2);
+		year2.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Sort by Year");
-		chckbxNewCheckBox.setBounds(10, 259, 97, 23);
-		panel.add(chckbxNewCheckBox);
+		JCheckBox byYear = new JCheckBox("Sort by Year");
+		byYear.setBounds(10, 259, 97, 23);
+		panel.add(byYear);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Sort by Relevance");
-		chckbxNewCheckBox_1.setBounds(10, 300, 128, 23);
-		panel.add(chckbxNewCheckBox_1);
+		JCheckBox byRelevance = new JCheckBox("Sort by Relevance");
+		byRelevance.setBounds(10, 300, 128, 23);
+		panel.add(byRelevance);
 		
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() {
+		JButton buttonBack = new JButton("Back");
+		buttonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame_used.getContentPane().removeAll();
 				frame_used.getContentPane().add(new MainPanel(frame_used));
@@ -139,24 +150,157 @@ public class Query1Panel extends JPanel{
 				frame_used.getContentPane().repaint();
 			}
 		});
-		btnBack.setForeground(Color.WHITE);
-		btnBack.setBackground(Color.BLACK);
-		btnBack.setFont(new Font("Calibri", Font.PLAIN, 14));
-		btnBack.setBounds(61, 375, 89, 23);
-		panel.add(btnBack);
+		buttonBack.setForeground(Color.WHITE);
+		buttonBack.setBackground(Color.BLACK);
+		buttonBack.setFont(new Font("Calibri", Font.PLAIN, 14));
+		buttonBack.setBounds(61, 375, 89, 23);
+		panel.add(buttonBack);
 		
-		JButton btnNewButton = new JButton("Search");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton buttonSearch = new JButton("Search");
+		buttonSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				String sBy = (String) searchByBox.getSelectedItem();
+				boolean sByName = true;
+				if (sBy.equals("Author name"))
+				{
+					sByName = true;
+				}
+				if (sBy.equals("Title tags"))
+				{
+					sByName = false;
+				}
+				if (sBy.equals("Search by"))
+				{
+					JOptionPane.showMessageDialog(frame_used, "Please search by Author name or Title tags");
+					return;
+				}
+				
+				String name_used = name.getText();
+				if (name_used.equals(""))
+				{
+					JOptionPane.showMessageDialog(frame_used, "Please enter Name/Title tag");
+					return;
+				}
+				String syear = sinceYear.getText();
+				String y1 = year1.getText();
+				String y2 = year2.getText();
+				
+				if ((syear.equals("YYYY")) && (y1.equals("YYYY") || y2.equals("YYYY")))
+				{
+					JOptionPane.showMessageDialog(frame_used, "Please enter the years in 'Since Year' or 'Custom Range' fields");
+					return;
+				}
+				else
+				{
+					if (!syear.equals("YYYY"))
+					{
+						try
+						{
+							int syint = Integer.parseInt(syear);
+							//is an integer
+						}
+						catch(NumberFormatException exc)
+						{
+							JOptionPane.showMessageDialog(frame_used, "Please enter the year as an integer");
+							return;
+						}
+					}
+					else
+					{
+						try
+						{
+							int y1int = Integer.parseInt(y1);
+							int y2int = Integer.parseInt(y2);
+							//are integers
+						}
+						catch(NumberFormatException exc)
+						{
+							JOptionPane.showMessageDialog(frame_used, "Please write the years in 'Since Year' or 'Custom Range' fields");
+							return;
+						}
+					}
+				}
+				
+				boolean sByYear;
+				if ((!byYear.isSelected()) && (!byRelevance.isSelected()))
+				{
+					JOptionPane.showMessageDialog(frame_used, "Please select one of the sort by options");
+					return;
+				}
+				if (byYear.isSelected())
+					sByYear = true;
+				else
+					sByYear = false;
+				
+				if (syear.equals("YYYY"))
+					parameters = new query1Parameters(sByName, name_used, Integer.parseInt(y1), Integer.parseInt(y2));
+				else
+					parameters = new query1Parameters(sByName, name_used, Integer.parseInt(syear), 2016);
+				
+				for (int i = 1; i <= 19; i++)
+				{
+					/*table.getModel().setValueAt(i, i, 0);
+					table.getModel().setValueAt("Author" + (i), i, 1);
+					table.getModel().setValueAt("Title" + (i), i, 2);
+					table.getModel().setValueAt(i, i, 3);
+					table.getModel().setValueAt(1889 + (i), i, 4);
+					table.getModel().setValueAt("Volume" + (i), i, 5);
+					table.getModel().setValueAt("Book Title" + (i), i, 6);
+					table.getModel().setValueAt("url" + (i), i, 7);*/
+					
+					int num = arr.get(i-1);
+					table.getModel().setValueAt(num, i, 0);
+					++count;
+				}
+			}
+		});
+		buttonSearch.setBounds(10, 341, 78, 23);
+		panel.add(buttonSearch);
+		
+		JButton buttonReset = new JButton("Reset");
+		buttonReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchByBox.setSelectedItem("Search by");
+				name.setText("");
+				sinceYear.setText("YYYY");
+				year1.setText("YYYY");
+				year2.setText("YYYY");
+				byYear.setSelected(false);
+				byRelevance.setSelected(false);
+				
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+							{"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+						},
+						new String[] {
+							"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"
+						}
+					));
 				
 			}
 		});
-		btnNewButton.setBounds(10, 341, 78, 23);
-		panel.add(btnNewButton);
-		
-		JButton btnReset = new JButton("Reset");
-		btnReset.setBounds(114, 341, 84, 23);
-		panel.add(btnReset);
+		buttonReset.setBounds(114, 341, 84, 23);
+		panel.add(buttonReset);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
@@ -167,7 +311,7 @@ public class Query1Panel extends JPanel{
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null, null},
+				{"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"},
 				{null, null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null, null},
@@ -194,17 +338,77 @@ public class Query1Panel extends JPanel{
 		));
 		table.setForeground(new Color(0, 0, 0));
 		table.setBounds(10, 11, 476, 353);
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		panel_1.add(table);
 		
-		JButton btnNext = new JButton("Next");
-		btnNext.setForeground(new Color(255, 255, 255));
-		btnNext.setFont(new Font("Calibri", Font.PLAIN, 14));
-		btnNext.setBackground(new Color(0, 0, 0));
-		btnNext.setBounds(397, 375, 89, 23);
-		panel_1.add(btnNext);
+		JButton buttonNext = new JButton("Next");
+		buttonNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				table.setModel(new DefaultTableModel(
+						new Object[][] {
+							{"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null, null},
+						},
+						new String[] {
+							"SNo", "Authors", "Title", "Pages", "Year", "Volume", "Book Title", "url"
+						}
+					));
+				
+				int temp = count;
+				int numLeft = arr.size() - count;
+				int num;
+				if (numLeft == 0)
+				{
+					JOptionPane.showMessageDialog(frame_used, "All results have been displayed");
+					return;
+				}
+				if ((numLeft != 0) && (numLeft <= 19))
+				{
+					for (int i = temp; i < arr.size(); i++)
+					{
+						num = arr.get(i);
+						table.getModel().setValueAt(num, (i%19)+1, 0);
+						++count;
+					}
+				}
+				if ((numLeft != 0) && (numLeft > 19))
+				{
+					for (int i = temp; i <= (temp + 18); i++)
+					{
+						num = arr.get(i);
+						table.getModel().setValueAt(num, (i%19)+1, 0);
+						++count;
+					}
+				}
+			}
+		});
+		buttonNext.setForeground(new Color(255, 255, 255));
+		buttonNext.setFont(new Font("Calibri", Font.PLAIN, 14));
+		buttonNext.setBackground(new Color(0, 0, 0));
+		buttonNext.setBounds(397, 375, 89, 23);
+		panel_1.add(buttonNext);
 		
 		//result test
-		ArrayList<ResultTest> results = new ArrayList<>();
+		/*ArrayList<ResultTest> results = new ArrayList<>();
 		
 		ResultTest obj1 = new ResultTest();
 		obj1.sno = 1;
@@ -220,7 +424,8 @@ public class Query1Panel extends JPanel{
 		obj1.url = "www.marvel.com";
 		obj1.volume = "2";
 		obj1.year = "1991";
-		results.add(obj1);
+		results.add(obj1);*/
+		
 		
 		
 	}
