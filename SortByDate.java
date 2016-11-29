@@ -1,6 +1,11 @@
 
 import java.util.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class SortByDate implements Comparator<query1ResultRow>{
 
 	@Override

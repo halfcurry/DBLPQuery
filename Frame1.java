@@ -1,3 +1,5 @@
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,12 +19,19 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
+
 public class Frame1 implements Runnable{
 
-	private JFrame frame;
 	/**
-	 * Launch the application.
+	 * Generic Frame for the GUi
 	 */
+	private JFrame frame;
+	JPanel parsing;
 	
 	public void run(){
 		try {
@@ -32,10 +41,7 @@ public class Frame1 implements Runnable{
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Create the application.
-	 */
+	
 	public Frame1() {
 		initialize();
 	}
@@ -45,13 +51,19 @@ public class Frame1 implements Runnable{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setResizable(true);
+		frame.setResizable(false);
 		//frame.getContentPane().setBackground(new Color(220, 220, 220));
 		frame.setSize(750, 540);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("DBLP Query Engine by: Ajay Balasubramanian and Aditya Adhikary");
 		//frame.getContentPane().setLayout(null);
+		JPanel parsing = new JPanel();
+		JLabel parsinglabel = new JLabel( "Parsing ...");
+		parsing.add(parsinglabel);
+		frame.add( parsing );
+		
+		frame.setEnabled(true);
+		frame.remove(parsing);
 		frame.add(new MainPanel(frame));
 	}
-	
 }

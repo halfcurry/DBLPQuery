@@ -1,4 +1,8 @@
-
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public abstract class queryResultRow {
 	
 	protected int queryType;

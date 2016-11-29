@@ -1,7 +1,17 @@
 
 import java.util.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
+
 public class Publication {
+	
+	/**
+	 * Stores relevant details for publications and a hashmap containing them
+	 */
 	public static Map<String, Publication> publMap = new HashMap<String, Publication>();
 	private static int maxNumberOfAuthors = 50;
 	private String key;

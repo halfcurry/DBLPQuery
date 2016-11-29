@@ -5,7 +5,18 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
+
 public class FirstParseHandler extends DefaultHandler{
+	
+	/**
+	 * Handler for the first parse - stores the <alternate name, particular name> in the alternate names
+	 * hashmap, as well creates a new entry in the personMap hashmap 
+	 */
 	
 	boolean bAltnames;
 	List<String> altnames;
@@ -25,7 +36,6 @@ public class FirstParseHandler extends DefaultHandler{
 		{
 			if (attributes.getLength()>0) {
 				key = attributes.getValue("key");
-				// System.out.println( "Key: " + key + "\n" + "Mdate: " + mdate );
 				if( key.substring(0,9).equals("homepages")){ 
 					//this is a person record
 					insidePerson = true;

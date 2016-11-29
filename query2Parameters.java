@@ -1,6 +1,13 @@
-
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class query2Parameters extends queryParameters{
 
+	/**
+	 * a model class for user entered details in query1
+	 */
 	int numPublications;
 	/**
 	 * @param numPublications

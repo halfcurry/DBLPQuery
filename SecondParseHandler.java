@@ -6,7 +6,21 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class SecondParseHandler extends DefaultHandler{
+	
+	/**
+	 * Handler for the second parse - stores publications in publication hashmap
+	 * Resolves person entities: as an author is encountered, we see if it exists in the alternatenames map.
+	 * if it does, then increment value of the value in the alternatenames map ( i.e mapped to one name in
+	 * the personMap)
+	 * if it exists in the personMap, simply increment its value in the personMap.
+	 * else, create a new entry in the personMap
+	 */
 
 	//common tags which hold for both publication and person records
 	String key; 

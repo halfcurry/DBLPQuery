@@ -7,8 +7,16 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class MainPanel extends JPanel{
+	
+	/**
+	 *Generic Panel which goes into the Frame
+	 */
 
 	private JFrame frame_used;
 	private JTable table;

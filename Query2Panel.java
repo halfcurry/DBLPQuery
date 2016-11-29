@@ -9,8 +9,17 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.util.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 
 public class Query2Panel extends JPanel{
+	
+	/**
+	 * Displays stuff required during and on execution of query1
+	 */
 
 	private JFrame frame_used;
 	private JTable table;
@@ -128,7 +137,7 @@ public class Query2Panel extends JPanel{
 				resultshow = new JLabel("No. of results returned: " + q2ResList.size());
 				resultshow.setHorizontalAlignment(SwingConstants.CENTER);
 				resultshow.setFont(new Font("Tahoma", Font.BOLD, 15));
-				resultshow.setBounds(75, 40, 56, 14);
+				resultshow.setBounds(238, 87, 496, 16);
 				panel.add(resultshow);
 				
 				if( q2ResList.size() == 0 ){

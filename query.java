@@ -1,4 +1,11 @@
+
 import java.util.List;
+
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 
 public abstract class query {
 	

@@ -1,12 +1,18 @@
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class ParserRunnable implements Runnable{
-
-	public ParserRunnable() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	/**
+	 * Parser thread
+	 */
 	
 	public void run(){
 		dblpParser d = dblpParser.getSingletonDblpParser();
 	}
+
 
 }

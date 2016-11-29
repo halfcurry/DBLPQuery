@@ -1,5 +1,13 @@
-
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class query2ResultRow extends queryResultRow{
+	
+	/**
+	 * a model class for results of query1 to be displayed by GUI
+	 */
 	
 	String authorName;
 

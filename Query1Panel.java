@@ -7,8 +7,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 
 public class Query1Panel extends JPanel{
+	
+	/**
+	 * Displays stuff required during and on execution of query1
+	 */
 
 	private JFrame frame_used;
 	private JTable table;
@@ -229,6 +238,7 @@ public class Query1Panel extends JPanel{
 				resultshow = new JLabel("No. of results returned: " + q1ResList.size());
 				resultshow.setHorizontalAlignment(SwingConstants.CENTER);
 				resultshow.setFont(new Font("Tahoma", Font.BOLD, 15));
+				resultshow.setBounds(238, 87, 496, 16);
 				resultshow.setBounds(75, 40, 56, 14);
 				panel.add(resultshow);
 				

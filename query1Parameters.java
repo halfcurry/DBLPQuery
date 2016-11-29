@@ -1,6 +1,16 @@
 import java.util.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
+
 public class query1Parameters extends queryParameters{
+	
+	/**
+	 * a model class for user entered details in query1
+	 */
 
 	boolean searchByName;
 	List<String> tags; //tags are the parts of the name if searchByName is true, else they are the title tags to be searched for

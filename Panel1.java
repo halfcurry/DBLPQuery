@@ -2,6 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class Panel1 extends JPanel
 {
 	private JButton next;
@@ -31,9 +36,7 @@ public class Panel1 extends JPanel
 		left.setBackground(Color.GRAY);
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		left.add(Box.createVerticalStrut(20));
-		left.add(new JTextField("Query"));
-		
-		
+		left.add(new JTextField("Query"));	
 		
 	}
 }

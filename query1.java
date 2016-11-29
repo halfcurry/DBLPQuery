@@ -1,7 +1,16 @@
 import java.util.*;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
+
 public class query1 extends query {
 
+	/**
+	 * Query 1 execution and sorting
+	 */
 	List<query1ResultRow> query1ResultRowList;
 	query1Parameters q1Params;
 	boolean sortParameters;

@@ -1,8 +1,19 @@
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
+
 public class query1ResultRow extends queryResultRow {
+	
+	/**
+	 * a model class for results of query1 to be displayed by GUI
+	 */
 
 	List<String> authors = new ArrayList<String>();
 	String title;

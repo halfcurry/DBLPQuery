@@ -2,8 +2,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * @author Aditya Adhikary
+ * @author Ajay Balasubramanian
+ *
+ */
 public class query2 extends query{
 
+	/**
+	 * Query 2 execution and sorting
+	 */
 	List<query2ResultRow> query2ResultRowList;
 	query2Parameters q2Params;
 	
