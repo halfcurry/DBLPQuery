@@ -13,6 +13,15 @@ public class query1 extends query {
 	public void setQuery1ResultRowList(List<query1ResultRow> query1ResultRowList) {
 		this.query1ResultRowList = query1ResultRowList;
 	}
+	
+	public static String join( List<String> s ){
+		String ret = "";
+		int i;
+		for( i = 0; i < s.size() - 1; i++ ){
+			ret = ret + s.get(i) + " ";
+		}
+		return ret + s.get(i);
+	}
 
 	@Override
 	public void execute( queryParameters q1Par ) {
@@ -35,20 +44,44 @@ public class query1 extends query {
 		Iterator it = Publication.iterator();
 		Integer counter;
 		while( it.hasNext()){
+			String key = (String)it.next();
 			counter = 0;
 			boolean stringmatched = false;
 			boolean yearmatched = false;
-			String key = (String)it.next();
-			//System.out.println(key);
-			if( q1Params.getTags() != null ){
-				for( String tag: q1Params.getTags()){
-					if( key.toLowerCase().indexOf( tag.toLowerCase()) >= 0 && StopWords.get(tag) == null ){
-						stringmatched = true;
-						counter++;
+			if( q1Params.isSearchByName()){ //is search by name
+				if( q1Params.getTags() != null ){
+					String searchname = query1.join(q1Params.getTags());
+					String temp[] = key.split("\\|");
+					List<String> testArray = new ArrayList<String>();
+					try{
+						for( int i = 2; i < temp.length; i++ ){
+							testArray.add(temp[i].trim());
+						}
+						int index = Compare.compare(searchname, testArray);
+						if( index > 0 ){
+							stringmatched = true;
+							System.out.println( key );
+							counter = q1Params.getTags().size();
+						}
+					}
+					catch( ArrayIndexOutOfBoundsException e ){
+						System.out.println( "LOLOLOLOL");
 					}
 				}
+				else stringmatched = true;
 			}
-			else stringmatched = true; //i.e no title tags or author tags have been entered
+			else{  //search by title tags
+				//System.out.println(key);
+				if( q1Params.getTags() != null ){
+					for( String tag: q1Params.getTags()){
+						if( key.toLowerCase().indexOf( tag.toLowerCase()) >= 0 && StopWords.get(tag) == null ){
+							stringmatched = true;
+							counter++;
+						}
+					}
+				}
+				else stringmatched = true; //i.e no title tags or author tags have been entered
+			}
 			if( q1Params.getStartYear() != null && q1Params.getEndYear() != null ){
 				String temp[] = key.split("\\|");
 				String year = temp[1].trim();

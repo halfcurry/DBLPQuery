@@ -20,7 +20,7 @@ public class dblpParser {
 	
 	private dblpParser(){
 		try{
-			File inputFile = new File("dblp_medium.xml");
+			File inputFile = new File("dblp.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			dblpQueryHandler qHandler = new dblpQueryHandler();

@@ -139,8 +139,7 @@ public class dblpQueryHandler extends DefaultHandler{
 						if( countPerson %10000 == 0 )System.out.println("No. of persons : " + countPerson );
 					}
 					p.setAlternateNames(authors);
-					//System.out.println( "Finished a person record, no of persons");
-					
+					//System.out.println( "Finished a person record, no of persons");		
 				}
 			}
 			else{
@@ -165,6 +164,7 @@ public class dblpQueryHandler extends DefaultHandler{
 		}
 	}
 
+	@Override
 	public void endDocument() throws SAXException {
 		System.out.println("File ended!");
 		System.out.println("Number of Publications: " + Publication.publMap.size());
